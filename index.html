@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SwiftCart</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header + Navbar -->
+  <header class="navbar">
+    <div class="container nav-wrap">
+      <a class="logo" href="index.html">SwiftCart</a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="cart-btn" id="cartBtn" aria-label="Open cart">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+
+        <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main id="home">
+    <section class="hero">
+      <div class="container hero-wrap">
+        <h1>Best Collection For You</h1>
+        <p>
+          Discover the latest trends in fashion, electronics, and more. Shop with confidence and style at SwiftCart.
+        </p>
+        <a class="primary-btn" href="products.html">Shop Now</a>
+      </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="section" id="about">
+      <div class="container">
+        <h2 class="section-title">Why Choose Us</h2>
+        <p class="small-note">We provide the best shopping experience with top-notch services.</p>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="icon"><i class="fa-solid fa-truck-fast"></i></div>
+            <h3>Fast Delivery</h3>
+            <p>Get your orders delivered to your doorstep quickly and efficiently.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="icon"><i class="fa-solid fa-headset"></i></div>
+            <h3>24/7 Support</h3>
+            <p>Our support team is available around the clock to assist you.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <h3>Secure Payment</h3>
+            <p>Experience safe and secure transactions with our encrypted payment systems.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="icon"><i class="fa-solid fa-rotate-left"></i></div>
+            <h3>Easy Returns</h3>
+            <p>Not satisfied? Return your products easily within 30 days.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trending -->
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title" style="text-align:left;">Trending Now</h2>
+
+        <div class="loading" id="trendingLoader">Loading trending products...</div>
+        <div class="product-grid trending-grid" id="trendingGrid"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact">
+    <div class="container footer-wrap">
+      <div>
+        <h3 style="margin:0 0 10px;color:#4e37f6;">SwiftCart</h3>
+        <p class="muted">
+          Your one-stop shop for all your fashion and lifestyle needs. Quality products, fast delivery, and excellent support.
+        </p>
+      </div>
+
+      <div class="footer-links">
+        <h4 class="footer-title">Quick Links</h4>
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+
+      <div class="footer-links">
+        <h4 class="footer-title">Support</h4>
+        <a href="#">FAQ</a>
+        <a href="#">Shipping</a>
+        <a href="#">Returns</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+
+      <div>
+        <h4 class="footer-title">Subscribe to our Newsletter</h4>
+        <form class="footer-news" onsubmit="event.preventDefault(); alert('Subscribed! (demo)');">
+          <input type="email" placeholder="Enter your email" required />
+          <button type="submit">Subscribe</button>
+        </form>
+
+        <div class="socials">
+          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      © <span id="year"></span> SwiftCart, Inc. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- Product -->
+  <div class="modal" id="productModal" aria-hidden="true">
+    <div class="modal-overlay" id="modalOverlay"></div>
+
+    <div class="modal-box" role="dialog" aria-modal="true">
+      <button class="close-btn" id="modalClose" aria-label="Close">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="modal-content" id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- Cart Drawer -->
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+    <div class="drawer-panel">
+      <div class="drawer-head">
+        <h3>Your Cart</h3>
+        <button class="close-btn" id="closeCartBtn" aria-label="Close">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="drawer-body" id="cartItems"></div>
+
+      <div class="drawer-foot">
+        <div class="total-row">
+          <span>Total</span>
+          <strong id="cartTotal">$0</strong>
+        </div>
+        <button class="primary-btn full" id="checkoutBtn">Checkout</button>
+      </div>
+    </div>
+  </aside>
+
+  <script src="app.js"></script>
+</body>
+</html>
