@@ -163,7 +163,152 @@ if (checkoutBtn) {
     closeCart();
   };
 }
+// Newsletter
+if (newsletterForm) {
+  newsletterForm.onsubmit = (e) => {
+    e.preventDefault();
+    alert("Subscribed! (demo)");
+    newsletterForm.reset();
+  };
+}
 
+// Category + products 
+let activeCategory = "all";
+
+const renderCategories = (categories) => {
+  if (!categoryRow) return;
+  categoryRow.innerHTML = "";
+
+  const allBtn = document.createElement("button");
+  allBtn.className = "cat-btn active";
+  allBtn.textContent = "All";
+  allBtn.dataset.cat = "all";
+  categoryRow.appendChild(allBtn);
+
+  categories.forEach(cat => {
+    let label = cat;
+    if (cat === "men's clothing") label = "Men's Clothing";
+    if (cat === "women's clothing") label = "Women's Clothing";
+    if (cat === "jewelery") label = "Jewelery";
+    if (cat === "electronics") label = "Electronics";
+
+    const btn = document.createElement("button");
+    btn.className = "cat-btn";
+    btn.textContent = label;
+    btn.dataset.cat = cat;
+    categoryRow.appendChild(btn);
+  });
+};
+
+const setActiveCategoryBtn = () => {
+  document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
+  const current = document.querySelector(`.cat-btn[data-cat="${activeCategory}"]`);
+  if (current) current.classList.add("active");
+};
+
+const productCardHTML = (p) => {
+  let catLabel = p.category;
+  if (p.category === "men's clothing") catLabel = "Men's Clothing";
+  if (p.category === "women's clothing") catLabel = "Women's Clothing";
+  if (p.category === "jewelery") catLabel = "Jewelery";
+  if (p.category === "electronics") catLabel = "Electronics";
+
+  return `
+    <div class="pcard">
+      <img class="pimg" src="${p.image}" alt="${p.title}">
+      <div class="pbody">
+        <div class="pmeta">
+          <span class="badge">${catLabel}</span>
+          <span class="rating">
+            <i class="fa-solid fa-star" style="color:#f59e0b;"></i>
+            ${Number(p.rating?.rate || 0).toFixed(1)}
+            <span>(${p.rating?.count || 0})</span>
+          </span>
+        </div>
+
+        <h3 class="ptitle">${truncate(p.title, 34)}</h3>
+        <div class="price">${money(p.price)}</div>
+
+        <div class="btn-row">
+          <button class="btn2" data-details="${p.id}">
+            <i class="fa-regular fa-eye"></i> Details
+          </button>
+          <button class="btn2 primary" data-add="${p.id}">
+            <i class="fa-solid fa-cart-plus"></i> Add
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+};
+
+const renderProducts = (products, grid) => {
+  if (!grid) return;
+  if (!products.length) {
+    grid.innerHTML = `<p style="color:#64748b;margin:0;">No products found.</p>`;
+    return;
+  }
+  grid.innerHTML = products.map(productCardHTML).join("");
+};
+
+// Loaders
+const loadCategories = async () => {
+  if (!categoryRow) return; 
+  try {
+    show(catLoader);
+    const categories = await getJSON(`${API}/products/categories`);
+    renderCategories(categories);
+  } catch {
+    categoryRow.innerHTML = `<p style="color:#64748b;margin:0;">Failed to load categories.</p>`;
+  } finally {
+    hide(catLoader);
+  }
+};
+
+const loadAllProducts = async () => {
+
+  try {
+    if (productGrid) show(productLoader);
+    if (trendingGrid) show(trendingLoader);
+
+    const products = await getJSON(`${API}/products`);
+    allProducts = products;
+
+    if (productGrid) renderProducts(products, productGrid);
+
+    if (trendingGrid) {
+      const sorted = [...products].sort((a,b) => (b.rating?.rate || 0) - (a.rating?.rate || 0));
+      renderProducts(sorted.slice(0, 3), trendingGrid);
+    }
+  } catch {
+    if (productGrid) productGrid.innerHTML = `<p style="color:#64748b;margin:0;">Failed to load products.</p>`;
+    if (trendingGrid) trendingGrid.innerHTML = `<p style="color:#64748b;margin:0;">Failed to load trending.</p>`;
+  } finally {
+    if (productGrid) hide(productLoader);
+    if (trendingGrid) hide(trendingLoader);
+  }
+};
+
+const loadByCategory = async (cat) => {
+  if (!productGrid) return; 
+  activeCategory = cat;
+  setActiveCategoryBtn();
+
+  if (cat === "all") {
+    renderProducts(allProducts, productGrid);
+    return;
+  }
+
+  try {
+    show(productLoader);
+    const products = await getJSON(`${API}/products/category/${encodeURIComponent(cat)}`);
+    renderProducts(products, productGrid);
+  } catch {
+    productGrid.innerHTML = `<p style="color:#64748b;margin:0;">Failed to load category products.</p>`;
+  } finally {
+    hide(productLoader);
+  }
+}; 
 
 // category 
 if (categoryRow) {
