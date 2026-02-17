@@ -1,10 +1,10 @@
 
 #### 1) What is the difference between `null` and `undefined`?
-Ans : null মানে হচ্ছে যে - কোনো variable এর মান নেই এমন সেট করা হয়েছে ।
+     null মানে হচ্ছে যে - কোনো variable এর মান নেই এমন সেট করা হয়েছে ।
     undefined মানে হচ্ছে যে - কোনো variable দেওয়া হয়েছে এর মান সেট দেওয়া হয় নি/
 
 #### 2) What is the use of the `map()` function in JavaScript? How is it different from `forEach()`?
-Ans: map() function ১টি array এর সব মানের উপর কাজ করে ও নতুন array return করে।
+    map() function ১টি array এর সব মানের উপর কাজ করে ও নতুন array return করে।
      forEach() সব মানের উপর কাজ করে কিন্তু নতুন array return করে না।
 
 #### 3) What is the difference between `==` and `===`?
