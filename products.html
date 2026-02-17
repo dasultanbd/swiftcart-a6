@@ -12,6 +12,131 @@
 </head>
 
 <body>
- 
+ <!-- Navbar -->
+  <header class="navbar">
+    <div class="container nav-wrap">
+      <a class="logo" href="index.html">SwiftCart</a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a class="active-link" href="products.html">Products</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="cart-btn" id="cartBtn" aria-label="Open cart">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+
+        <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Products -->
+  <main>
+    <section class="section" id="products">
+      <div class="container">
+        <h2 class="section-title products-title">Our Products</h2>
+
+        <div class="filter-area products-filters">
+          <div class="category-row" id="categoryRow"></div>
+          <div class="loading" id="catLoader">Loading categories...</div>
+        </div>
+
+        <div class="loading" id="productLoader">Loading products...</div>
+        <div class="product-grid products-grid" id="productGrid"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact">
+    <div class="container footer-wrap">
+      <div>
+        <h3 style="margin:0 0 10px;color:#fff;">SwiftCart</h3>
+        <p class="muted">
+          Your one-stop shop for all your fashion and lifestyle needs. Quality products, fast delivery, and excellent support.
+        </p>
+      </div>
+
+      <div class="footer-links">
+        <h4 class="footer-title">Quick Links</h4>
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+
+      <div class="footer-links">
+        <h4 class="footer-title">Support</h4>
+        <a href="#">FAQ</a>
+        <a href="#">Shipping</a>
+        <a href="#">Returns</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+
+      <div>
+        <h4 class="footer-title">Subscribe to our Newsletter</h4>
+        <form class="footer-news" onsubmit="event.preventDefault(); alert('Subscribed! (demo)');">
+          <input type="email" placeholder="Enter your email" required />
+          <button type="submit">Subscribe</button>
+        </form>
+
+        <div class="socials">
+          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      © <span id="year"></span> SwiftCart, Inc. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- Modal -->
+  <div class="modal" id="productModal" aria-hidden="true">
+    <div class="modal-overlay" id="modalOverlay"></div>
+
+    <div class="modal-box" role="dialog" aria-modal="true">
+      <button class="close-btn" id="modalClose" aria-label="Close">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="modal-content" id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- Cart Drawer -->
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+    <div class="drawer-panel">
+      <div class="drawer-head">
+        <h3>Your Cart</h3>
+        <button class="close-btn" id="closeCartBtn" aria-label="Close">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="drawer-body" id="cartItems"></div>
+
+      <div class="drawer-foot">
+        <div class="total-row">
+          <span>Total</span>
+          <strong id="cartTotal">$0</strong>
+        </div>
+        <button class="primary-btn full" id="checkoutBtn">Checkout</button>
+      </div>
+    </div>
+  </aside>
+
+  <script src="app.js"></script>
 </body>
 </html>
